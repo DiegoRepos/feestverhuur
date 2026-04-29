@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(java --version)",
+      "Bash(mvn --version)",
+      "Bash(npm --version)",
+      "Bash(npx @angular/cli version)",
+      "Read(//usr/share/maven/**)",
+      "Read(//opt/maven/**)",
+      "Bash(ng version *)",
+      "Bash(npx -y @angular/cli@17 version)",
+      "PowerShell(winget install *)",
+      "Bash(curl *)",
+      "Bash(unzip -q backend.zip)",
+      "Bash(ng new *)",
+      "Bash(npm install *)",
+      "Bash(npx tailwindcss *)",
+      "Bash(npx ng *)",
+      "Bash(./mvnw compile *)",
+      "PowerShell(cd \"C:\\\\Users\\\\Gebruiker\\\\Desktop\\\\Jordy\\\\backend\"; Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd \"C:\\\\Users\\\\Gebruiker\\\\Desktop\\\\Jordy\\\\backend\"; .\\\\mvnw.cmd spring-boot:run' -WindowStyle Normal)",
+      "PowerShell(Start-Process powershell -ArgumentList '-NoExit', '-Command', 'cd \"C:\\\\Users\\\\Gebruiker\\\\Desktop\\\\Jordy\\\\frontend\"; ng serve --open' -WindowStyle Normal)",
+      "Bash(gh auth *)",
+      "Bash(git rm *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
