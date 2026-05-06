@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe, NgFor } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { Category } from '../../models/category.model';
 import { Item } from '../../models/item.model';
@@ -14,28 +14,39 @@ import { Item } from '../../models/item.model';
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [RouterLink, MatButtonModule, MatCardModule, MatIconModule, MatSelectModule, MatFormFieldModule, FormsModule, CurrencyPipe, NgFor, NgIf],
+  imports: [RouterLink, MatButtonModule, MatCardModule, MatIconModule, FormsModule, CurrencyPipe, NgFor],
   template: `
-    <div class="container py-12">
-      <h1 class="text-4xl font-bold mb-2">Losse artikelen</h1>
-      <p class="text-gray-500 mb-8">Huur individuele artikelen voor jouw event</p>
+    <div class="bg-[#07071a] min-h-screen">
+
+      <!-- Hero breadcrumb -->
+      <div class="hero-dark border-b border-white/5">
+        <div class="container py-8 relative z-10">
+          <nav class="flex items-center gap-2 text-sm text-gray-400 mb-6">
+            <a routerLink="/" class="hover:text-white transition-colors">Home</a>
+            <mat-icon class="text-base text-gray-600">chevron_right</mat-icon>
+            <span class="text-white">Artikelen</span>
+          </nav>
+          <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Losse artikelen</h1>
+          <p class="text-blue-300">Huur individuele artikelen voor jouw event</p>
+        </div>
+      </div>
+
+    <div class="container py-10">
 
       <div class="mb-6">
-        <mat-form-field appearance="outline">
-          <mat-label>Filter op categorie</mat-label>
-          <mat-select [(ngModel)]="selectedCategory" (ngModelChange)="onCategoryChange()">
-            <mat-option [value]="null">Alle categorieën</mat-option>
-            <mat-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.displayName }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <select [(ngModel)]="selectedCategory" (ngModelChange)="onCategoryChange()"
+                class="border border-gray-300 rounded-lg px-4 py-2.5 text-sm bg-white focus:outline-none focus:border-primary-500">
+          <option [ngValue]="null">Alle categorieën</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.displayName }}</option>
+        </select>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @for (item of items; track item.id) {
           <div class="card-hover bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
-            <div class="h-40 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+            <div class="h-44 bg-white flex items-center justify-center p-4">
               @if (item.imageUrl) {
-                <img [src]="item.imageUrl" [alt]="item.name" class="w-full h-full object-cover">
+                <img [src]="item.imageUrl" [alt]="item.name" class="max-h-full max-w-full object-contain mix-blend-multiply">
               } @else {
                 <mat-icon class="text-gray-400 text-5xl">inventory_2</mat-icon>
               }
@@ -62,6 +73,7 @@ import { Item } from '../../models/item.model';
         </div>
       }
     </div>
+    </div>
   `
 })
 export class ItemsComponent implements OnInit {
@@ -71,8 +83,12 @@ export class ItemsComponent implements OnInit {
 
   constructor(private api: ApiService) {}
 
+  private readonly itemCategories = ['GELUID', 'LICHT', 'EFFECTEN'];
+
   ngOnInit(): void {
-    this.api.getCategories().subscribe(cats => this.categories = cats);
+    this.api.getCategories().subscribe(cats => {
+      this.categories = cats.filter(c => this.itemCategories.includes(c.name));
+    });
     this.loadItems();
   }
 

@@ -23,6 +23,10 @@ public class Item {
     @Column(nullable = false)
     private BigDecimal pricePerDay;
 
+    private BigDecimal pricePerWeekend;
+
+    private BigDecimal pricePerWeek;
+
     @Column(nullable = false)
     private BigDecimal deposit;
 

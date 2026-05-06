@@ -5,6 +5,8 @@ export interface Item {
   name: string;
   description: string;
   pricePerDay: number;
+  pricePerWeekend?: number;
+  pricePerWeek?: number;
   deposit: number;
   stock: number;
   imageUrl?: string;

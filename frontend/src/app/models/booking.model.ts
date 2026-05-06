@@ -5,6 +5,7 @@ export interface CartLine {
   pricePerDay?: number;
   priceFixed?: number;
   quantity: number;
+  stock?: number;
   imageUrl?: string;
 }
 

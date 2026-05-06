@@ -36,9 +36,11 @@ export class CartService {
     this._lines.update(lines => {
       const existing = lines.find(l => l.type === line.type && l.id === line.id);
       if (existing) {
+        const max = line.stock ?? Infinity;
+        const newQty = Math.min(existing.quantity + line.quantity, max);
         return lines.map(l =>
           l.type === line.type && l.id === line.id
-            ? { ...l, quantity: l.quantity + line.quantity }
+            ? { ...l, quantity: newQty }
             : l
         );
       }
@@ -58,7 +60,11 @@ export class CartService {
       return;
     }
     this._lines.update(lines =>
-      lines.map(l => l.type === type && l.id === id ? { ...l, quantity } : l)
+      lines.map(l => {
+        if (l.type !== type || l.id !== id) return l;
+        const max = l.stock ?? Infinity;
+        return { ...l, quantity: Math.min(quantity, max) };
+      })
     );
     this.saveLines();
   }

@@ -54,6 +54,13 @@ public class BookingService {
 
             if (lineReq.itemId() != null) {
                 Item item = itemService.findEntityById(lineReq.itemId());
+                if (!item.getIsAvailable()) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, item.getName() + " is niet beschikbaar");
+                }
+                if (lineReq.quantity() > item.getStock()) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                            "Onvoldoende voorraad voor " + item.getName() + " (max " + item.getStock() + ")");
+                }
                 line.setItem(item);
                 line.setUnitPrice(item.getPricePerDay().multiply(BigDecimal.valueOf(days)));
                 total = total.add(line.getUnitPrice().multiply(BigDecimal.valueOf(lineReq.quantity())));

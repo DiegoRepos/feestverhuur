@@ -12,6 +12,8 @@ export const routes: Routes = [
   { path: 'betaling/succes', loadComponent: () => import('./pages/payment-success/payment-success.component').then(m => m.PaymentSuccessComponent) },
   { path: 'betaling/geannuleerd', loadComponent: () => import('./pages/payment-cancelled/payment-cancelled.component').then(m => m.PaymentCancelledComponent) },
   { path: 'voorwaarden', loadComponent: () => import('./pages/terms/terms.component').then(m => m.TermsComponent) },
+  { path: 'partners', loadComponent: () => import('./pages/partners/partners.component').then(m => m.PartnersComponent) },
+  { path: 'partners/pema-foodtruck', loadComponent: () => import('./pages/partners/pema-foodtruck/pema-foodtruck.component').then(m => m.PemaFoodtruckComponent) },
   { path: 'contact', loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent) },
   { path: 'admin/login', loadComponent: () => import('./pages/admin/login/login.component').then(m => m.LoginComponent) },
   { path: 'admin/boekingen', canActivate: [authGuard], loadComponent: () => import('./pages/admin/bookings/bookings.component').then(m => m.BookingsComponent) },

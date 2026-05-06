@@ -46,7 +46,8 @@ public class ItemService {
     public ItemDto toDto(Item i) {
         return new ItemDto(
                 i.getId(), i.getName(), i.getDescription(),
-                i.getPricePerDay(), i.getDeposit(), i.getStock(),
+                i.getPricePerDay(), i.getPricePerWeekend(), i.getPricePerWeek(),
+                i.getDeposit(), i.getStock(),
                 i.getImageUrl(), i.getIsAvailable(),
                 i.getCategory() != null ? categoryService.toDto(i.getCategory()) : null
         );

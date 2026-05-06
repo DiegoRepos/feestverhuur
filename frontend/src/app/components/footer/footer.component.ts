@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
   imports: [RouterLink],
   template: `
-    <footer class="bg-primary-900 text-white mt-16 py-10">
+    @if (!isAdminRoute) {
+    <footer class="bg-[#0f0a2e] text-white mt-16 py-10">
       <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
-          <h3 class="font-bold text-lg mb-3">Feestverhuur</h3>
+          <h3 class="font-bold text-lg mb-3">ZYVENTO</h3>
           <p class="text-gray-400 text-sm">Jouw partner voor onvergetelijke feesten. Pakketten en losse verhuur voor elk type event.</p>
         </div>
         <div>
@@ -31,12 +32,15 @@ import { RouterLink } from '@angular/router';
         </div>
       </div>
       <div class="container mt-8 pt-6 border-t border-gray-700 text-sm text-gray-500 flex justify-between">
-        <span>© {{ year }} Feestverhuur. Alle rechten voorbehouden.</span>
+        <span>© {{ year }} ZYVENTO. Alle rechten voorbehouden.</span>
         <a routerLink="/voorwaarden" class="hover:text-white transition-colors">Voorwaarden</a>
       </div>
     </footer>
+    }
   `
 })
 export class FooterComponent {
   year = new Date().getFullYear();
+  constructor(private router: Router) {}
+  get isAdminRoute(): boolean { return this.router.url.startsWith('/admin'); }
 }

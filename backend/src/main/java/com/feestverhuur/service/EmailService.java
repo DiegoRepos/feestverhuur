@@ -1,5 +1,6 @@
 package com.feestverhuur.service;
 
+import com.feestverhuur.dto.ContactRequest;
 import com.feestverhuur.entity.Booking;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,36 @@ public class EmailService {
             mailSender.send(message);
         } catch (Exception e) {
             log.error("Kon bevestigingsmail niet sturen voor boeking {}: {}", booking.getId(), e.getMessage());
+        }
+    }
+
+    public void sendContactMessage(ContactRequest req) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromAddress);
+            message.setTo(fromAddress);
+            message.setReplyTo(req.email());
+            message.setSubject("Nieuw contactbericht: " + (req.onderwerp() != null ? req.onderwerp() : "Geen onderwerp"));
+            message.setText("""
+                    Nieuw bericht via het contactformulier:
+
+                    Naam:      %s
+                    E-mail:    %s
+                    Telefoon:  %s
+                    Onderwerp: %s
+
+                    Bericht:
+                    %s
+                    """.formatted(
+                    req.naam(),
+                    req.email(),
+                    req.telefoon() != null ? req.telefoon() : "-",
+                    req.onderwerp() != null ? req.onderwerp() : "-",
+                    req.bericht()
+            ));
+            mailSender.send(message);
+        } catch (Exception e) {
+            log.error("Kon contactmail niet sturen: {}", e.getMessage());
         }
     }
 

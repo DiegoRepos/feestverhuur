@@ -8,12 +8,14 @@ import com.feestverhuur.service.EmailService;
 import com.feestverhuur.service.PaymentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/bookings")
 @RequiredArgsConstructor
+@Slf4j
 public class BookingController {
 
     private final BookingService bookingService;
@@ -24,7 +26,12 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookingResponse create(@Valid @RequestBody BookingRequest request) {
         Booking booking = bookingService.createBooking(request);
-        String checkoutUrl = paymentService.createPayment(booking);
+        String checkoutUrl = null;
+        try {
+            checkoutUrl = paymentService.createPayment(booking);
+        } catch (Exception e) {
+            log.error("Mollie betaling aanmaken mislukt voor boeking {}: {}", booking.getId(), e.getMessage());
+        }
         return new BookingResponse(
                 booking.getId(), booking.getStatus().name(),
                 booking.getStartDate(), booking.getEndDate(),

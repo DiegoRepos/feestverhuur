@@ -39,6 +39,11 @@ export class ApiService {
     return this.http.get<RentalPackage>(`${this.base}/packages/${id}`);
   }
 
+  // Contact
+  sendContact(data: { naam: string; email: string; telefoon?: string; onderwerp?: string; bericht: string }): Observable<void> {
+    return this.http.post<void>(`${this.base}/contact`, data);
+  }
+
   // Bookings
   createBooking(request: BookingRequest): Observable<BookingResponse> {
     return this.http.post<BookingResponse>(`${this.base}/bookings`, request);

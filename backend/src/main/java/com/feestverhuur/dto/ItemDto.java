@@ -7,6 +7,8 @@ public record ItemDto(
         String name,
         String description,
         BigDecimal pricePerDay,
+        BigDecimal pricePerWeekend,
+        BigDecimal pricePerWeek,
         BigDecimal deposit,
         Integer stock,
         String imageUrl,
