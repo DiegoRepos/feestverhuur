@@ -5,10 +5,11 @@ import { Category } from '../models/category.model';
 import { Item } from '../models/item.model';
 import { RentalPackage } from '../models/package.model';
 import { BookingRequest, BookingResponse } from '../models/booking.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private base = 'http://localhost:8080/api';
+  private base = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

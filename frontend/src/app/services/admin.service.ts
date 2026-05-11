@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Item } from '../models/item.model';
 import { RentalPackage } from '../models/package.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
-  private base = 'http://localhost:8080/api/admin';
+  private base = environment.apiUrl + '/admin';
 
   constructor(private http: HttpClient) {}
 
