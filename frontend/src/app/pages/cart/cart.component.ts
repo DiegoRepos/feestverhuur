@@ -57,15 +57,17 @@ import { CartService } from '../../services/cart.service';
                   <!-- Foto -->
                   @if (line.imageUrl) {
                     @if (line.type === 'item') {
-                      <div class="w-20 h-20 bg-white rounded-xl flex items-center justify-center shrink-0 overflow-hidden">
+                      <a [routerLink]="['/artikelen', line.id]"
+                         class="w-20 h-20 bg-white rounded-xl flex items-center justify-center shrink-0 overflow-hidden cursor-pointer">
                         <img [src]="line.imageUrl" [alt]="line.name"
                              class="w-full h-full object-contain mix-blend-multiply p-1">
-                      </div>
+                      </a>
                     } @else {
-                      <div class="w-20 h-20 rounded-xl shrink-0 overflow-hidden">
+                      <a [routerLink]="['/pakketten', line.id]"
+                         class="w-20 h-20 rounded-xl shrink-0 overflow-hidden cursor-pointer">
                         <img [src]="line.imageUrl" [alt]="line.name"
                              class="w-full h-full object-cover">
-                      </div>
+                      </a>
                     }
                   } @else {
                     <div class="w-20 h-20 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center shrink-0">
@@ -80,7 +82,8 @@ import { CartService } from '../../services/cart.service';
                     <div class="text-xs font-bold tracking-widest text-blue-400 uppercase mb-1">
                       {{ line.type === 'package' ? 'Pakket' : 'Artikel' }}
                     </div>
-                    <h3 class="font-semibold text-white truncate">{{ line.name }}</h3>
+                    <a [routerLink]="line.type === 'item' ? ['/artikelen', line.id] : ['/pakketten', line.id]"
+                       class="font-semibold text-white truncate hover:text-blue-400 transition-colors block">{{ line.name }}</a>
                     <div class="text-sm text-gray-400 mt-0.5">
                       @if (line.pricePerDay != null) {
                         {{ line.pricePerDay | currency:'EUR' }}/dag × {{ cart.totalDays() }} dag(en)
