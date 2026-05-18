@@ -76,7 +76,7 @@ app.base-url=http://localhost:4200
 ## Categorieën
 
 **Pakketten:** KINDERFEEST, SWEET_16, EVENT_STYLING, TROUWFEEST, SIMPLE_PARTY  
-**Artikelen:** GELUID, LICHT, EFFECTEN  
+**Artikelen:** GELUID, LICHT, EFFECTEN, MEUBILAIR, TENTEN, ENTERTAINMENT  
 **Verborgen overal:** EXTRA
 
 ---
