@@ -7,7 +7,7 @@ import { Router, RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     @if (!isAdminRoute) {
-    <footer class="bg-[#0f0a2e] text-white mt-16 py-10">
+    <footer class="bg-[#07071a]/75 backdrop-blur-md text-white py-10 border-t border-white/10">
       <div class="container grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <h3 class="font-bold text-lg mb-3">ZYVENTO</h3>

@@ -83,7 +83,7 @@ export class ItemsComponent implements OnInit {
 
   constructor(private api: ApiService) {}
 
-  private readonly itemCategories = ['GELUID', 'LICHT', 'EFFECTEN'];
+  private readonly itemCategories = ['GELUID', 'LICHT', 'EFFECTEN', 'MEUBILAIR', 'TENTEN', 'ENTERTAINMENT'];
 
   ngOnInit(): void {
     this.api.getCategories().subscribe(cats => {

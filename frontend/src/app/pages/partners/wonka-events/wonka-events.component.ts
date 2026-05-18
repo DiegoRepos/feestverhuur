@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-pema-foodtruck',
+  selector: 'app-wonka-events',
   standalone: true,
   imports: [RouterLink, MatIconModule],
   template: `
@@ -18,36 +18,40 @@ import { MatIconModule } from '@angular/material/icon';
             <mat-icon class="text-base text-gray-600">chevron_right</mat-icon>
             <a routerLink="/partners" class="hover:text-white transition-colors">Partners</a>
             <mat-icon class="text-base text-gray-600">chevron_right</mat-icon>
-            <span class="text-white">PeMa Foodtruck</span>
+            <span class="text-white">Wonka Events</span>
           </nav>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <!-- Links: tekst -->
             <div>
-              <h1 class="text-4xl md:text-5xl font-bold mb-2">PeMa Foodtruck</h1>
-              <p class="text-blue-400 font-bold tracking-widest text-sm uppercase mb-6">Griekse Specialiteiten</p>
+              <h1 class="text-4xl md:text-5xl font-bold mb-2">Wonka Events</h1>
+              <p class="text-yellow-400 font-bold tracking-widest text-sm uppercase mb-6">
+                Audio &bull; Visual &bull; Event &bull; Rental
+              </p>
               <p class="text-gray-300 text-base leading-relaxed mb-8">
-                PeMa Foodtruck brengt de authentieke smaken van Griekenland naar jouw event.
-                Naast onze Griekse specialiteiten bieden we ook frituur, BBQ en hotdogkraam aan
-                voor een complete foodervaring voor elke gelegenheid.
+                Wonka Events is meer dan alleen geluid en licht.<br>
+                Wij creëren belevingen die mensen raken.<br>
+                Van intieme feesten tot grote evenementen:<br>
+                met professioneel materiaal en creatieve concepten<br>
+                brengen wij jouw visie tot leven.
               </p>
               <div class="flex flex-wrap gap-3">
-                <a href="https://wa.me/32479587038" target="_blank"
+                <a href="https://wa.me/3247053787" target="_blank"
                    class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm">
                   <mat-icon class="text-base">phone</mat-icon>
-                  0479 58 70 38
+                  +32 470 53 78 79
                 </a>
-                <a href="mailto:Pema.grieksfoodtruck@hotmail.com"
+                <a href="mailto:info@wonka.events"
                    class="flex items-center gap-2 border border-white/30 hover:border-white/60 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm">
                   <mat-icon class="text-base">mail</mat-icon>
-                  E-mail ons
+                  info&#64;wonka.events
                 </a>
               </div>
             </div>
 
-            <!-- Rechts: foto foodtruck -->
+            <!-- Rechts: foto -->
             <div class="relative hidden md:block h-[480px]">
-              <img src="partners/pema.jpeg" alt="PeMa Foodtruck"
+              <img src="partners/wonka.jpeg" alt="Wonka Events"
                    class="w-full h-full object-cover rounded-2xl">
               <div class="absolute inset-0 bg-gradient-to-r from-[#07071a] via-[#07071a]/30 to-transparent rounded-2xl"></div>
             </div>
@@ -55,40 +59,21 @@ import { MatIconModule } from '@angular/material/icon';
         </div>
       </section>
 
-      <!-- Smaak sectie -->
+      <!-- Wat wij doen -->
       <section class="bg-[#07071a] border-t border-white/5 py-16">
         <div class="container">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            <!-- Links: tekst -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-12">
             <div>
-              <h2 class="text-2xl md:text-3xl font-bold mb-5">Authentieke Griekse smaak,<br>aangevuld met meer</h2>
+              <h2 class="text-2xl md:text-3xl font-bold mb-5">Wat wij doen</h2>
               <p class="text-gray-400 leading-relaxed">
-                Van klassieke Griekse gerechten tot heerlijke snacks van de frituur, sappige
-                BBQ-specialiteiten en overheerlijke hotdogs. PeMa Foodtruck staat garant voor
-                kwaliteit, versheid en een vriendelijke service.
+                Wij leveren complete oplossingen op het gebied van geluid, licht en techniek.
+                Of het nu gaat om verhuur of een totaalconcept, wij zorgen voor de perfecte beleving.
+                Altijd met oog voor detail en kwaliteit.
               </p>
             </div>
-            <!-- Rechts: 2x2 foto grid -->
-            <div class="grid grid-cols-2 gap-3">
-              <img src="partners/grieks_schotel.webp" alt="Griekse schotel"
-                   class="rounded-xl w-full h-40 object-cover">
-              <img src="partners/grieks_kalamaris.webp" alt="Kalamaris"
-                   class="rounded-xl w-full h-40 object-cover">
-              <img src="partners/gyros-pita.jpg" alt="Gyros pita"
-                   class="rounded-xl w-full h-40 object-cover">
-              <img src="partners/grieks_torie.webp" alt="Griekse torie"
-                   class="rounded-xl w-full h-40 object-cover">
-            </div>
           </div>
-        </div>
-      </section>
-
-      <!-- Ons aanbod -->
-      <section class="bg-[#07071a] border-t border-white/5 py-16">
-        <div class="container">
-          <h2 class="text-2xl font-bold text-center mb-10">Ons aanbod</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-            @for (item of aanbod; track item.title) {
+            @for (item of diensten; track item.title) {
               <div class="dark-card rounded-2xl p-6 flex flex-col items-center text-center">
                 <div class="w-14 h-14 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center mb-4">
                   <mat-icon class="text-blue-400 text-2xl">{{ item.icon }}</mat-icon>
@@ -101,12 +86,27 @@ import { MatIconModule } from '@angular/material/icon';
         </div>
       </section>
 
-      <!-- Boek sectie -->
+      <!-- Sfeerimpressie -->
       <section class="bg-[#07071a] border-t border-white/5 py-16">
         <div class="container">
-          <h2 class="text-2xl font-bold mb-10 text-center">Boek PeMa Foodtruck voor jouw event</h2>
+          <h2 class="text-2xl font-bold mb-8">Sfeerimpressie</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <img src="partners/wonka.jpeg" alt="Wonka Events sfeer 1"
+                 class="rounded-xl w-full h-48 object-cover">
+            <img src="partners/wonka.jpeg" alt="Wonka Events sfeer 2"
+                 class="rounded-xl w-full h-48 object-cover object-top">
+            <img src="partners/wonka.jpeg" alt="Wonka Events sfeer 3"
+                 class="rounded-xl w-full h-48 object-cover object-bottom">
+          </div>
+        </div>
+      </section>
+
+      <!-- Klaar voor een onvergetelijk event? -->
+      <section class="bg-[#07071a] border-t border-white/5 py-16">
+        <div class="container">
+          <h2 class="text-2xl font-bold mb-10 text-center">Klaar voor een onvergetelijk event?</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            <!-- Links: checklist -->
+            <!-- Links: checklist + knoppen -->
             <div>
               <ul class="space-y-4 mb-8">
                 @for (punt of checklijst; track punt) {
@@ -117,22 +117,22 @@ import { MatIconModule } from '@angular/material/icon';
                 }
               </ul>
               <div class="flex flex-wrap gap-3">
-                <a href="https://wa.me/32479587038" target="_blank"
+                <a href="https://wa.me/3247053787" target="_blank"
                    class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2.5 rounded-lg transition-colors text-sm">
                   <mat-icon class="text-base">phone</mat-icon>
-                  0479 58 70 38
+                  +32 470 53 78 79
                 </a>
-                <a href="mailto:Pema.grieksfoodtruck@hotmail.com"
+                <a href="mailto:info@wonka.events"
                    class="flex items-center gap-2 border border-white/30 hover:border-white/60 text-white px-5 py-2.5 rounded-lg transition-colors text-sm">
                   <mat-icon class="text-base">mail</mat-icon>
-                  Pema.grieksfoodtruck&#64;hotmail.com
+                  info&#64;wonka.events
                 </a>
               </div>
             </div>
-            <!-- Rechts: foto foodtruck -->
-            <div class="rounded-2xl overflow-hidden shadow-2xl">
-              <img src="partners/pema.jpeg" alt="PeMa Foodtruck"
-                   class="w-full h-72 object-cover">
+            <!-- Rechts: logo -->
+            <div class="rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center bg-black/30 p-8">
+              <img src="partners/wonka.jpeg" alt="Wonka Events logo"
+                   class="max-h-64 object-contain">
             </div>
           </div>
         </div>
@@ -152,34 +152,34 @@ import { MatIconModule } from '@angular/material/icon';
     </div>
   `
 })
-export class PemaFoodtruckComponent {
-  aanbod = [
+export class WonkaEventsComponent {
+  diensten = [
     {
-      icon: 'restaurant',
-      title: 'Griekse specialiteiten',
-      description: 'Authentieke gerechten zoals souvlaki, gyros, moussaka, salades en meer.'
+      icon: 'volume_up',
+      title: 'Audio',
+      description: 'Professionele geluidssystemen voor elke locatie en elk event.'
     },
     {
-      icon: 'lunch_dining',
-      title: 'Frituur',
-      description: 'Krokante frietjes, snacks en klassiekers – altijd vers en goudbruin.'
+      icon: 'wb_incandescent',
+      title: 'Visual & Lights',
+      description: 'Sfeervolle verlichting en visuele effecten die indruk maken.'
     },
     {
-      icon: 'outdoor_grill',
-      title: 'BBQ',
-      description: 'Sappige vleesgerechten recht van de grill, vol smaak en kwaliteit.'
+      icon: 'event',
+      title: 'Event Production',
+      description: 'Complete technische productie van concept tot uitvoering.'
     },
     {
-      icon: 'fastfood',
-      title: 'Hotdogkraam',
-      description: 'Heerlijke hotdogs met diverse toppings, ideaal voor elk event.'
+      icon: 'inventory_2',
+      title: 'Rental',
+      description: 'Verhuur van hoogwaardig materiaal en professioneel advies.'
     }
   ];
 
   checklijst = [
-    'Voor privéfeesten, bedrijfsevents, festivals en meer',
-    'Flexibel aanbod op maat van jouw wensen',
-    'Verse ingrediënten en authentieke bereiding',
-    'Vriendelijke service en professionele aanpak'
+    'Professionele apparatuur & techniek',
+    'Ervaren team & persoonlijke aanpak',
+    'Flexibel, creatief en oplossingsgericht',
+    'Van klein tot groot – wij staan klaar'
   ];
 }

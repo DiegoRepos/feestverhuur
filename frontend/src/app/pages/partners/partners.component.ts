@@ -77,7 +77,14 @@ export class PartnersComponent {
       name: 'Wonka Events',
       description: 'Creatieve eventproductie en entertainment voor evenementen die indruk maken.',
       image: 'partners/wonka.jpeg',
-      href: '#'
+      route: '/partners/wonka-events'
+    },
+    {
+      name: 'Sweet Crumble Patisserie',
+      description: 'Ambachtelijke patisserie, luxe desserts en gepersonaliseerde sweet tables voor elk event en elke gelegenheid.',
+      image: 'partners/sweet-crumble-logo.jpeg',
+      logo: true,
+      route: '/partners/sweet-crumble'
     }
   ];
 }

@@ -33,12 +33,13 @@ public class Item {
     @Column(nullable = false)
     private Integer stock;
 
+    @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
     @Column(nullable = false)
     private Boolean isAvailable = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 }

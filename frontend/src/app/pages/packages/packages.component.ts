@@ -55,7 +55,7 @@ import { RentalPackage } from '../../models/package.model';
 
               <!-- Foto -->
               <div class="h-48 overflow-hidden relative">
-                <img [src]="categoryImage(pkg.category?.name)"
+                <img [src]="pkg.imageUrl || categoryImage(pkg.category?.name)"
                      [alt]="pkg.name"
                      class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -107,7 +107,7 @@ export class PackagesComponent implements OnInit {
   packages: RentalPackage[] = [];
   selectedCategoryId: number | null = null;
 
-  private readonly hiddenCategories = ['EXTRA', 'GELUID', 'LICHT', 'EFFECTEN'];
+  private readonly hiddenCategories = ['EXTRA', 'GELUID', 'LICHT', 'EFFECTEN', 'MEUBILAIR', 'TENTEN'];
 
   private readonly images: Record<string, string> = {
     KINDERFEEST:   'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=600&h=400&q=80',

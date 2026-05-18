@@ -52,6 +52,7 @@ public class AdminController {
 
     @PostMapping("/items")
     public ItemDto createItem(@RequestBody Item item) {
+        item.setId(null);
         if (item.getCategory() != null && item.getCategory().getId() != null) {
             categoryRepository.findById(item.getCategory().getId())
                     .ifPresent(item::setCategory);
@@ -89,6 +90,7 @@ public class AdminController {
 
     @PostMapping("/packages")
     public PackageDto createPackage(@RequestBody RentalPackage pkg) {
+        pkg.setId(null);
         if (pkg.getCategory() != null && pkg.getCategory().getId() != null) {
             categoryRepository.findById(pkg.getCategory().getId()).ifPresent(pkg::setCategory);
         }

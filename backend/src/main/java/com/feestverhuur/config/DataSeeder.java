@@ -25,6 +25,9 @@ public class DataSeeder {
             if (categoryRepo.count() > 0) {
                 seedGeluidLichtIfMissing(categoryRepo, itemRepo);
                 seedTrouwfeestIfMissing(categoryRepo, packageRepo);
+                seedMeubilairTentenIfMissing(categoryRepo, itemRepo);
+                seedMatchNightIfMissing(categoryRepo, packageRepo);
+                seedEntertainmentIfMissing(categoryRepo, itemRepo);
                 updateImageUrls(itemRepo);
                 return;
             }
@@ -215,6 +218,48 @@ public class DataSeeder {
         i.setIsAvailable(true);
         i.setCategory(category);
         return repo.save(i);
+    }
+
+    private void seedMeubilairTentenIfMissing(CategoryRepository categoryRepo, ItemRepository itemRepo) {
+        if (categoryRepo.findByName("MEUBILAIR").isPresent()) return;
+        log.info("Meubilair & Tenten categorieën aanmaken...");
+        Category meubilair = cat(categoryRepo, "MEUBILAIR", "Meubilair", "Stoelen, tafels en zitmeubelen");
+        Category tenten = cat(categoryRepo, "TENTEN", "Tenten", "Partytenten en overkappingen");
+        itemRepo.findAll().forEach(item -> {
+            boolean changed = false;
+            if (item.getName().startsWith("Tent")) {
+                item.setCategory(tenten);
+                item.setIsAvailable(true);
+                changed = true;
+            } else if (item.getName().equals("Stoel") || item.getName().startsWith("Tafel")) {
+                item.setCategory(meubilair);
+                item.setIsAvailable(true);
+                changed = true;
+            }
+            if (changed) itemRepo.save(item);
+        });
+    }
+
+    private void seedEntertainmentIfMissing(CategoryRepository categoryRepo, ItemRepository itemRepo) {
+        if (categoryRepo.findByName("ENTERTAINMENT").isPresent()) return;
+        log.info("Entertainment categorie aanmaken...");
+        Category entertainment = cat(categoryRepo, "ENTERTAINMENT", "Entertainment", "TV, schermen en horecamateriaal");
+        item(itemRepo, entertainment, "Samsung 4K Neo LED 100 inch",
+                "Professionele 100 inch 4K Neo LED televisie, ideaal voor sportevenementen en grote schermweergave.",
+                new BigDecimal("350.00"), null, null, new BigDecimal("500.00"), 1);
+        item(itemRepo, entertainment, "Professionele tap",
+                "Professionele biertap inclusief koeling, geschikt voor 50L biervaten.",
+                new BigDecimal("150.00"), null, null, new BigDecimal("200.00"), 2);
+    }
+
+    private void seedMatchNightIfMissing(CategoryRepository categoryRepo, PackageRepository packageRepo) {
+        if (packageRepo.findAll().stream().anyMatch(p -> p.getName().equals("Match Night Package"))) return;
+        log.info("Match Night Package aanmaken...");
+        categoryRepo.findByName("SIMPLE_PARTY").ifPresent(simpleParty ->
+            pkg(packageRepo, simpleParty, "Match Night Package", "MATCH",
+                "De ultieme voetbalavond opstelling. Inclusief Samsung 4K Neo LED 100 inch tv, professioneel geluid en een gratis 50L biervat. Waarborg €1.000.",
+                new BigDecimal("599.00"), List.of())
+        );
     }
 
     private void updateImageUrls(ItemRepository itemRepo) {
