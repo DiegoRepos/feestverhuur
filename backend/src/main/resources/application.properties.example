@@ -12,16 +12,9 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=false
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
-# Mail (Combell/mailprotect.be mailbox, bv. info@zyvento.be)
-spring.mail.host=smtp-auth.mailprotect.be
-spring.mail.port=587
-spring.mail.username=info@zyvento.be
-spring.mail.password=JOUW_MAILBOX_WACHTWOORD
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-spring.mail.properties.mail.smtp.connectiontimeout=5000
-spring.mail.properties.mail.smtp.timeout=5000
-spring.mail.properties.mail.smtp.writetimeout=5000
+# Mail (via Resend API — resend.com, gratis tier tot 3000 mails/maand)
+app.mail.from-address=info@zyvento.be
+resend.api-key=JOUW_RESEND_API_KEY
 
 # E-mailrouting: offertes@ en boekingen@ zijn mail forwards naar info@zyvento.be in Combell
 app.mail.offertes-address=offertes@zyvento.be

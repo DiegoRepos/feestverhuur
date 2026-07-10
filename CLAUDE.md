@@ -39,9 +39,8 @@ npm start
 spring.datasource.url=jdbc:postgresql://localhost:5432/feestverhuur
 spring.datasource.username=postgres
 spring.datasource.password=<lokaal-postgres-wachtwoord>
-spring.mail.host=smtp-auth.mailprotect.be
-spring.mail.username=info@zyvento.be
-spring.mail.password=<mailprotect-wachtwoord>
+app.mail.from-address=info@zyvento.be
+resend.api-key=<resend-api-key>
 app.mail.offertes-address=offertes@zyvento.be
 app.mail.boekingen-address=boekingen@zyvento.be
 jwt.secret=<willekeurige-string-min-32-tekens>
@@ -119,6 +118,9 @@ Methode-specifieke matchers werken niet betrouwbaar in deze versie.
 
 ### Admin-wachtwoord is BCrypt-gehashed
 `AuthController` vergelijkt met `PasswordEncoder.matches()` tegen `app.admin.password-hash` (niet meer plain text). Nieuwe hash genereren: `new BCryptPasswordEncoder().encode("wachtwoord")` of via `bcryptjs` in Node.
+
+### E-mail via Resend API, geen SMTP
+`EmailService` verstuurt via de Resend HTTP-API (`resend.api-key`), niet via `spring-boot-starter-mail`/SMTP. Reden: Combell/mailprotect.be SMTP-verbindingen timen altijd uit vanaf Railway (cloud-IP-blokkade door de mailprovider, bevestigd 2026-07-10). Routing: contactformulier → `offertes@zyvento.be`, nieuwe boeking → `boekingen@zyvento.be`, klantbevestiging → klant zelf. Alle drie verzonden vanaf `app.mail.from-address` (info@zyvento.be) met reply-to op de klant. Resend vereist domeinverificatie (DNS-records bij Combell) voor `zyvento.be`.
 
 ### combineLatest voor queryParams + API
 ```typescript

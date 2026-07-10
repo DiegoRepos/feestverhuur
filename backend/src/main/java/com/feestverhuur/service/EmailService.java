@@ -1,23 +1,35 @@
 package com.feestverhuur.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.feestverhuur.dto.ContactRequest;
 import com.feestverhuur.entity.Booking;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class EmailService {
 
-    private final JavaMailSender mailSender;
+    private final HttpClient httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(5))
+            .build();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Value("${spring.mail.username}")
+    @Value("${app.mail.from-address}")
     private String fromAddress;
+
+    @Value("${resend.api-key}")
+    private String resendApiKey;
 
     @Value("${app.mail.offertes-address}")
     private String offertesAddress;
@@ -26,59 +38,67 @@ public class EmailService {
     private String boekingenAddress;
 
     public void sendNewBookingNotification(Booking booking) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromAddress);
-            message.setTo(boekingenAddress);
-            message.setReplyTo(booking.getCustomer().getEmail());
-            message.setSubject("Nieuwe boeking #" + booking.getId() + " - ZYVENTO");
-            message.setText(buildNewBookingNotificationText(booking));
-            mailSender.send(message);
-        } catch (Exception e) {
-            log.error("Kon boekingsnotificatie niet sturen voor boeking {}: {}", booking.getId(), e.getMessage());
-        }
+        send(boekingenAddress, booking.getCustomer().getEmail(),
+                "Nieuwe boeking #" + booking.getId() + " - ZYVENTO",
+                buildNewBookingNotificationText(booking),
+                "boekingsnotificatie voor boeking " + booking.getId());
     }
 
     public void sendBookingConfirmation(Booking booking) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromAddress);
-            message.setTo(booking.getCustomer().getEmail());
-            message.setSubject("Boekingsbevestiging #" + booking.getId() + " - Feestverhuur");
-            message.setText(buildConfirmationText(booking));
-            mailSender.send(message);
-        } catch (Exception e) {
-            log.error("Kon bevestigingsmail niet sturen voor boeking {}: {}", booking.getId(), e.getMessage());
-        }
+        send(booking.getCustomer().getEmail(), null,
+                "Boekingsbevestiging #" + booking.getId() + " - ZYVENTO",
+                buildConfirmationText(booking),
+                "bevestigingsmail voor boeking " + booking.getId());
     }
 
     public void sendContactMessage(ContactRequest req) {
+        send(offertesAddress, req.email(),
+                "Nieuw contactbericht: " + (req.onderwerp() != null ? req.onderwerp() : "Geen onderwerp"),
+                """
+                Nieuw bericht via het contactformulier:
+
+                Naam:      %s
+                E-mail:    %s
+                Telefoon:  %s
+                Onderwerp: %s
+
+                Bericht:
+                %s
+                """.formatted(
+                        req.naam(),
+                        req.email(),
+                        req.telefoon() != null ? req.telefoon() : "-",
+                        req.onderwerp() != null ? req.onderwerp() : "-",
+                        req.bericht()
+                ),
+                "contactmail");
+    }
+
+    private void send(String to, String replyTo, String subject, String text, String context) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromAddress);
-            message.setTo(offertesAddress);
-            message.setReplyTo(req.email());
-            message.setSubject("Nieuw contactbericht: " + (req.onderwerp() != null ? req.onderwerp() : "Geen onderwerp"));
-            message.setText("""
-                    Nieuw bericht via het contactformulier:
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("from", "ZYVENTO <" + fromAddress + ">");
+            body.put("to", List.of(to));
+            if (replyTo != null) {
+                body.put("reply_to", replyTo);
+            }
+            body.put("subject", subject);
+            body.put("text", text);
 
-                    Naam:      %s
-                    E-mail:    %s
-                    Telefoon:  %s
-                    Onderwerp: %s
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.resend.com/emails"))
+                    .timeout(Duration.ofSeconds(10))
+                    .header("Authorization", "Bearer " + resendApiKey)
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(body)))
+                    .build();
 
-                    Bericht:
-                    %s
-                    """.formatted(
-                    req.naam(),
-                    req.email(),
-                    req.telefoon() != null ? req.telefoon() : "-",
-                    req.onderwerp() != null ? req.onderwerp() : "-",
-                    req.bericht()
-            ));
-            mailSender.send(message);
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() >= 300) {
+                log.error("Kon {} niet sturen: HTTP {} - {}", context, response.statusCode(), response.body());
+            }
         } catch (Exception e) {
-            log.error("Kon contactmail niet sturen: {}", e.getMessage());
+            log.error("Kon {} niet sturen: {}", context, e.getMessage());
         }
     }
 
