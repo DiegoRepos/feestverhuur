@@ -19,6 +19,9 @@ spring.mail.username=info@zyvento.be
 spring.mail.password=JOUW_MAILBOX_WACHTWOORD
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.writetimeout=5000
 
 # E-mailrouting: offertes@ en boekingen@ zijn mail forwards naar info@zyvento.be in Combell
 app.mail.offertes-address=offertes@zyvento.be
