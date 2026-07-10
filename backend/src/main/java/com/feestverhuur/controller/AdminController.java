@@ -12,6 +12,7 @@ import com.feestverhuur.repository.PackageRepository;
 import com.feestverhuur.service.BookingService;
 import com.feestverhuur.service.ItemService;
 import com.feestverhuur.service.PackageService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +52,7 @@ public class AdminController {
     }
 
     @PostMapping("/items")
-    public ItemDto createItem(@RequestBody Item item) {
+    public ItemDto createItem(@Valid @RequestBody Item item) {
         item.setId(null);
         if (item.getCategory() != null && item.getCategory().getId() != null) {
             categoryRepository.findById(item.getCategory().getId())
@@ -61,7 +62,7 @@ public class AdminController {
     }
 
     @PutMapping("/items/{id}")
-    public ItemDto updateItem(@PathVariable Long id, @RequestBody Item updated) {
+    public ItemDto updateItem(@PathVariable Long id, @Valid @RequestBody Item updated) {
         Item item = itemService.findEntityById(id);
         item.setName(updated.getName());
         item.setDescription(updated.getDescription());
@@ -89,7 +90,7 @@ public class AdminController {
     }
 
     @PostMapping("/packages")
-    public PackageDto createPackage(@RequestBody RentalPackage pkg) {
+    public PackageDto createPackage(@Valid @RequestBody RentalPackage pkg) {
         pkg.setId(null);
         if (pkg.getCategory() != null && pkg.getCategory().getId() != null) {
             categoryRepository.findById(pkg.getCategory().getId()).ifPresent(pkg::setCategory);
@@ -98,7 +99,7 @@ public class AdminController {
     }
 
     @PutMapping("/packages/{id}")
-    public PackageDto updatePackage(@PathVariable Long id, @RequestBody RentalPackage updated) {
+    public PackageDto updatePackage(@PathVariable Long id, @Valid @RequestBody RentalPackage updated) {
         RentalPackage pkg = packageService.findEntityById(id);
         pkg.setName(updated.getName());
         pkg.setDescription(updated.getDescription());

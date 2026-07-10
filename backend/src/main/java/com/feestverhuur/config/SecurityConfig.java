@@ -35,6 +35,7 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(new AntPathRequestMatcher("/api/admin/login")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/api/admin/logout")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/api/admin/**")).hasRole("ADMIN")
                 .anyRequest().permitAll()
             )

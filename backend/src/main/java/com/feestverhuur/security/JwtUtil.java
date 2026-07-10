@@ -36,10 +36,13 @@ public class JwtUtil {
     }
 
     public boolean isValid(String token) {
+        if (token == null || token.isBlank()) {
+            return false;
+        }
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token);
             return true;
-        } catch (JwtException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }

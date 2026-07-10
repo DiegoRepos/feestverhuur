@@ -69,9 +69,13 @@ public class RateLimitInterceptor implements HandlerInterceptor {
     }
 
     private String getClientIp(HttpServletRequest request) {
+        // Alleen het laatste IP in de keten vertrouwen: dat is het adres dat de
+        // trusted reverse proxy (Railway) zelf zag verbinden. Alles daarvoor kan
+        // door de client zelf in de header meegestuurd zijn en is dus spoofbaar.
         String forwarded = request.getHeader("X-Forwarded-For");
         if (forwarded != null && !forwarded.isBlank()) {
-            return forwarded.split(",")[0].trim();
+            String[] ips = forwarded.split(",");
+            return ips[ips.length - 1].trim();
         }
         return request.getRemoteAddr();
     }

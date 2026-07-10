@@ -1,6 +1,9 @@
 package com.feestverhuur.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -16,12 +19,15 @@ public class RentalPackage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private BigDecimal priceFrom;
 

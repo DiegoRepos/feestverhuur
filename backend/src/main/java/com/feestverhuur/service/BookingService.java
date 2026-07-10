@@ -26,6 +26,10 @@ public class BookingService {
         if (req.startDate().isAfter(req.endDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Startdatum moet voor einddatum liggen");
         }
+        if (Boolean.TRUE.equals(req.deliveryRequired())
+                && (req.deliveryAddress() == null || req.deliveryAddress().isBlank())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Afleveradres is verplicht bij levering");
+        }
 
         long days = ChronoUnit.DAYS.between(req.startDate(), req.endDate()) + 1;
 
