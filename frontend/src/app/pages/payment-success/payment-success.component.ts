@@ -10,16 +10,18 @@ import { ApiService } from '../../services/api.service';
   standalone: true,
   imports: [RouterLink, MatButtonModule, MatIconModule, NgIf],
   template: `
-    <div class="container py-20 text-center">
-      <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <mat-icon class="text-green-500 text-5xl">check_circle</mat-icon>
-      </div>
-      <h1 class="text-4xl font-bold mb-4">Betaling geslaagd!</h1>
-      <p class="text-gray-500 text-lg mb-2">Bedankt voor je boeking bij Feestverhuur.</p>
-      <p class="text-gray-500 mb-8">Je ontvangt een bevestiging per e-mail. Boeking #{{ bookingId }}</p>
-      <div class="flex gap-4 justify-center">
-        <a routerLink="/" mat-raised-button color="primary">Terug naar home</a>
-        <a routerLink="/pakketten" mat-stroked-button>Nog iets huren</a>
+    <div class="bg-[#07071a] min-h-screen">
+      <div class="container py-20 text-center">
+        <div class="w-24 h-24 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
+          <mat-icon class="text-green-400 text-5xl">check_circle</mat-icon>
+        </div>
+        <h1 class="text-4xl font-bold mb-4 text-white">Betaling geslaagd!</h1>
+        <p class="text-blue-300 text-lg mb-2">Bedankt voor je boeking bij Feestverhuur.</p>
+        <p class="text-gray-400 mb-8">Je ontvangt een bevestiging per e-mail. Boeking #{{ bookingId }}</p>
+        <div class="flex gap-4 justify-center">
+          <a routerLink="/" mat-raised-button color="primary">Terug naar home</a>
+          <a routerLink="/pakketten" mat-stroked-button class="!text-white !border-white/30">Nog iets huren</a>
+        </div>
       </div>
     </div>
   `

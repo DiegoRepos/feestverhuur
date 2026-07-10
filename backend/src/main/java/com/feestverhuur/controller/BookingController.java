@@ -26,6 +26,7 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookingResponse create(@Valid @RequestBody BookingRequest request) {
         Booking booking = bookingService.createBooking(request);
+        emailService.sendNewBookingNotification(booking);
         String checkoutUrl = null;
         try {
             checkoutUrl = paymentService.createPayment(booking);

@@ -88,6 +88,7 @@ import { Router } from '@angular/router';
             <table class="w-full text-sm">
               <thead>
                 <tr class="border-b border-white/8">
+                  <th class="w-8"></th>
                   <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
                   <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Klant</th>
                   <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Periode</th>
@@ -98,7 +99,10 @@ import { Router } from '@angular/router';
               </thead>
               <tbody>
                 @for (b of filtered; track b.id) {
-                  <tr class="border-b border-white/5 hover:bg-white/3 transition-colors">
+                  <tr class="border-b border-white/5 hover:bg-white/3 transition-colors cursor-pointer" (click)="toggleExpand(b.id)">
+                    <td class="px-3 py-4 text-gray-500">
+                      <mat-icon class="text-base transition-transform" [class.rotate-90]="expandedId === b.id">chevron_right</mat-icon>
+                    </td>
                     <td class="px-5 py-4 text-gray-500 font-mono">{{ b.id }}</td>
                     <td class="px-5 py-4">
                       <div class="text-white font-medium">{{ b.customer?.firstName }} {{ b.customer?.lastName }}</div>
@@ -106,7 +110,7 @@ import { Router } from '@angular/router';
                     </td>
                     <td class="px-5 py-4 text-gray-300">{{ b.startDate }} — {{ b.endDate }}</td>
                     <td class="px-5 py-4 text-white font-semibold">{{ b.totalAmount | currency:'EUR' }}</td>
-                    <td class="px-5 py-4">
+                    <td class="px-5 py-4" (click)="$event.stopPropagation()">
                       <select [(ngModel)]="b.status" (ngModelChange)="updateStatus(b)"
                               class="bg-[#07071a] border border-white/15 text-white text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500 cursor-pointer">
                         <option value="PENDING">Wachtend</option>
@@ -118,6 +122,56 @@ import { Router } from '@angular/router';
                     </td>
                     <td class="px-5 py-4 text-gray-500 text-xs">{{ b.createdAt | date:'dd/MM/yy HH:mm' }}</td>
                   </tr>
+                  @if (expandedId === b.id) {
+                    <tr class="border-b border-white/5 bg-white/3">
+                      <td colspan="7" class="px-8 py-5">
+                        <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+                          <div>
+                            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Klantgegevens</div>
+                            <div class="text-sm text-gray-300 space-y-1">
+                              <div>{{ b.customer?.phone }}</div>
+                              <div>{{ b.customer?.address }}, {{ b.customer?.postalCode }} {{ b.customer?.city }}</div>
+                            </div>
+                            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4 mb-2">Levering</div>
+                            <div class="text-sm text-gray-300">
+                              @if (!b.deliveryRequired) {
+                                Nee (afhalen)
+                              } @else if (b.deliveryAddress) {
+                                Ja — {{ b.deliveryAddress }}
+                              } @else {
+                                Ja — op klantadres hierboven
+                              }
+                            </div>
+                            @if (b.notes) {
+                              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4 mb-2">Opmerkingen</div>
+                              <div class="text-sm text-gray-300">{{ b.notes }}</div>
+                            }
+                            @if (b.molliePaymentId) {
+                              <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4 mb-2">Mollie betaling</div>
+                              <div class="text-sm text-gray-300 font-mono">{{ b.molliePaymentId }}</div>
+                            }
+                          </div>
+                          <div>
+                            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Bestelde items</div>
+                            <table class="w-full text-sm">
+                              <tbody>
+                                @for (l of b.lines; track $index) {
+                                  <tr class="border-b border-white/5 last:border-0">
+                                    <td class="py-1.5 text-gray-300">{{ l.itemName || l.packageName }}</td>
+                                    <td class="py-1.5 text-gray-500 text-right">{{ l.quantity }}x</td>
+                                    <td class="py-1.5 text-white text-right font-medium">{{ l.unitPrice | currency:'EUR' }}</td>
+                                  </tr>
+                                }
+                                @if (!b.lines || b.lines.length === 0) {
+                                  <tr><td class="py-1.5 text-gray-600">Geen items gevonden</td></tr>
+                                }
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  }
                 }
                 @if (filtered.length === 0) {
                   <tr>
@@ -139,6 +193,7 @@ export class BookingsComponent implements OnInit {
   bookings: any[] = [];
 
   activeFilter = '';
+  expandedId: number | null = null;
 
   statuses = [
     { key: 'PENDING',   label: 'Wachtend',    color: 'text-yellow-400', activeCls: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' },
@@ -162,6 +217,10 @@ export class BookingsComponent implements OnInit {
 
   count(status: string): number {
     return this.bookings.filter(b => b.status === status).length;
+  }
+
+  toggleExpand(id: number): void {
+    this.expandedId = this.expandedId === id ? null : id;
   }
 
   updateStatus(booking: any): void {

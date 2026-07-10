@@ -38,12 +38,15 @@ npm start
 ```
 spring.datasource.url=jdbc:postgresql://localhost:5432/feestverhuur
 spring.datasource.username=postgres
-spring.datasource.password=admin
-spring.mail.username=gamzeh8@gmail.com
-spring.mail.password=yssf pbzg dyjs smuy
-jwt.secret=feestverhuurSuperSecretKeyMinimum32CharactersLong!
+spring.datasource.password=<lokaal-postgres-wachtwoord>
+spring.mail.host=smtp-auth.mailprotect.be
+spring.mail.username=info@zyvento.be
+spring.mail.password=<mailprotect-wachtwoord>
+app.mail.offertes-address=offertes@zyvento.be
+app.mail.boekingen-address=boekingen@zyvento.be
+jwt.secret=<willekeurige-string-min-32-tekens>
 admin.username=admin
-admin.password=ChangeMe123!
+admin.password-hash=<bcrypt-hash-van-het-wachtwoord>
 app.base-url=http://localhost:4200
 ```
 
@@ -113,6 +116,9 @@ Methode-specifieke matchers werken niet betrouwbaar in deze versie.
 
 ### JwtFilter — GEEN @Component
 `JwtFilter` heeft geen `@Component`. Wordt handmatig aangemaakt in SecurityConfig.
+
+### Admin-wachtwoord is BCrypt-gehashed
+`AuthController` vergelijkt met `PasswordEncoder.matches()` tegen `app.admin.password-hash` (niet meer plain text). Nieuwe hash genereren: `new BCryptPasswordEncoder().encode("wachtwoord")` of via `bcryptjs` in Node.
 
 ### combineLatest voor queryParams + API
 ```typescript

@@ -10,6 +10,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new RateLimitInterceptor())
-                .addPathPatterns("/api/contact", "/api/bookings");
+                .addPathPatterns("/api/contact", "/api/bookings", "/api/admin/login");
     }
 }

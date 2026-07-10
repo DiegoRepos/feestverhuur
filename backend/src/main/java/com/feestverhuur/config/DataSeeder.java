@@ -56,11 +56,6 @@ public class DataSeeder {
                     new BigDecimal("25.00"), null, null, new BigDecimal("100.00"), 5);
             item(itemRepo, extra, "Tent 6x3m", "Grote partytent 6x3 meter",
                     new BigDecimal("45.00"), null, null, new BigDecimal("150.00"), 3);
-            item(itemRepo, extra, "Balloninstallatie", "Grote ballondecoratie op maat",
-                    new BigDecimal("35.00"), null, null, new BigDecimal("50.00"), 10);
-            item(itemRepo, extra, "Personalisatie (naam/leeftijd)",
-                    "Gepersonaliseerde banner of decoratie met naam en leeftijd",
-                    new BigDecimal("15.00"), null, null, new BigDecimal("25.00"), 20);
             item(itemRepo, extra, "Levering & Opbouw",
                     "Levering en opbouw van het materiaal op locatie",
                     new BigDecimal("50.00"), null, null, new BigDecimal("0.00"), 99);

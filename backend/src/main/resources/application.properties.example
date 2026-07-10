@@ -12,21 +12,25 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=false
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
-# Mail
-spring.mail.host=smtp.gmail.com
+# Mail (Combell/mailprotect.be mailbox, bv. info@zyvento.be)
+spring.mail.host=smtp-auth.mailprotect.be
 spring.mail.port=587
-spring.mail.username=jouw-email@gmail.com
-spring.mail.password=jouw-app-wachtwoord
+spring.mail.username=info@zyvento.be
+spring.mail.password=JOUW_MAILBOX_WACHTWOORD
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
+
+# E-mailrouting: offertes@ en boekingen@ zijn mail forwards naar info@zyvento.be in Combell
+app.mail.offertes-address=offertes@zyvento.be
+app.mail.boekingen-address=boekingen@zyvento.be
 
 # JWT
 app.jwt.secret=MINIMUM_32_TEKENS_LANG_GEHEIM
 app.jwt.expiration-ms=86400000
 
-# Admin credentials
+# Admin credentials (password-hash = BCrypt-hash, niet plain text)
 app.admin.username=admin
-app.admin.password=JOUW_ADMIN_WACHTWOORD
+app.admin.password-hash=JOUW_BCRYPT_HASH
 
 # Mollie
 mollie.api.key=test_xxxxxxxxxxxxxxxxxxxx

@@ -16,6 +16,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
     // Aparte bucket-map per endpoint-type
     private final Map<String, Bucket> contactBuckets = new ConcurrentHashMap<>();
     private final Map<String, Bucket> bookingBuckets = new ConcurrentHashMap<>();
+    private final Map<String, Bucket> adminLoginBuckets = new ConcurrentHashMap<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -42,6 +43,16 @@ public class RateLimitInterceptor implements HandlerInterceptor {
                     .addLimit(Bandwidth.builder()
                         .capacity(10)
                         .refillIntervally(10, Duration.ofHours(1))
+                        .build())
+                    .build()
+            );
+        } else if ("POST".equals(method) && uri.equals("/api/admin/login")) {
+            // Admin-login: max 5 pogingen per 15 minuten per IP (brute-force bescherming)
+            bucket = adminLoginBuckets.computeIfAbsent(ip, k ->
+                Bucket.builder()
+                    .addLimit(Bandwidth.builder()
+                        .capacity(5)
+                        .refillIntervally(5, Duration.ofMinutes(15))
                         .build())
                     .build()
             );

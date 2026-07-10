@@ -150,7 +150,7 @@ import { ApiService } from '../../services/api.service';
                     Telefoonnummer <span class="text-red-400">*</span>
                   </label>
                   <input name="telefoon" [(ngModel)]="form.telefoon" required #telefoon="ngModel"
-                         pattern="^[+]?[0-9\s\-()]{7,20}$"
+                         pattern="^[+]?[0-9 ()-]{7,20}$"
                          placeholder="+32 470 00 00 00"
                          [class]="inputClass(telefoon)"
                          (blur)="telefoon.control.markAsTouched()">
