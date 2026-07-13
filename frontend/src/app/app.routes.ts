@@ -16,6 +16,7 @@ export const routes: Routes = [
   { path: 'partners/pema-foodtruck', loadComponent: () => import('./pages/partners/pema-foodtruck/pema-foodtruck.component').then(m => m.PemaFoodtruckComponent) },
   { path: 'partners/wonka-events', loadComponent: () => import('./pages/partners/wonka-events/wonka-events.component').then(m => m.WonkaEventsComponent) },
   { path: 'partners/sweet-crumble', loadComponent: () => import('./pages/partners/sweet-crumble/sweet-crumble.component').then(m => m.SweetCrumbleComponent) },
+  { path: 'partners/row1', loadComponent: () => import('./pages/partners/row1/row1.component').then(m => m.Row1Component) },
   { path: 'contact', loadComponent: () => import('./pages/contact/contact.component').then(m => m.ContactComponent) },
   { path: 'admin/login', loadComponent: () => import('./pages/admin/login/login.component').then(m => m.LoginComponent) },
   { path: 'admin/boekingen', canActivate: [authGuard], loadComponent: () => import('./pages/admin/bookings/bookings.component').then(m => m.BookingsComponent) },

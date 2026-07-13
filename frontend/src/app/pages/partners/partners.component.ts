@@ -85,6 +85,12 @@ export class PartnersComponent {
       image: 'partners/sweet-crumble-logo.jpeg',
       logo: true,
       route: '/partners/sweet-crumble'
+    },
+    {
+      name: 'ROW1',
+      description: 'Hard trance dj met een signature blend van rauwe, percussieve energie — voor clubs, festivals en privé-events.',
+      image: 'partners/ROW2.jpg',
+      route: '/partners/row1'
     }
   ];
 }
