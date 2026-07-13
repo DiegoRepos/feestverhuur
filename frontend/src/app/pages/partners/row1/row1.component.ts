@@ -117,9 +117,9 @@ import { MatIconModule } from '@angular/material/icon';
               </div>
             </div>
             <!-- Rechts: foto -->
-            <div class="rounded-2xl overflow-hidden shadow-2xl">
-              <img src="partners/ROW2.jpg" alt="ROW1" style="object-position: center 15%"
-                   class="w-full h-72 object-cover">
+            <div class="rounded-2xl overflow-hidden shadow-2xl aspect-square">
+              <img src="partners/row1.jpg" alt="ROW1"
+                   class="w-full h-full object-cover">
             </div>
           </div>
         </div>
