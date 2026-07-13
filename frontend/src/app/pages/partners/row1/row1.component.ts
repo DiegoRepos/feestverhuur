@@ -55,7 +55,7 @@ import { MatIconModule } from '@angular/material/icon';
       <section class="bg-[#07071a] border-t border-white/5 py-16">
         <div class="container">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div class="order-2 md:order-1">
+            <div class="order-2 md:order-2">
               <h2 class="text-2xl md:text-3xl font-bold mb-5">Zijn eigen weg</h2>
               <p class="text-gray-400 leading-relaxed">
                 Terwijl veel van zijn generatiegenoten algoritme-gedreven trends volgen, kiest ROW1 zijn eigen weg:
@@ -64,7 +64,7 @@ import { MatIconModule } from '@angular/material/icon';
                 en ROW1 is nog maar net begonnen.
               </p>
             </div>
-            <div class="order-1 md:order-2 rounded-2xl overflow-hidden aspect-video">
+            <div class="order-1 md:order-1 rounded-2xl overflow-hidden aspect-video">
               <iframe class="w-full h-full"
                       src="https://www.youtube.com/embed/gWTuh8GTQws"
                       title="ROW1"
@@ -117,7 +117,7 @@ import { MatIconModule } from '@angular/material/icon';
               </div>
             </div>
             <!-- Rechts: foto -->
-            <div class="rounded-2xl overflow-hidden shadow-2xl aspect-square max-w-xs mx-auto md:mx-0">
+            <div class="rounded-2xl overflow-hidden shadow-2xl aspect-square max-w-sm mx-auto md:ml-auto md:mr-0">
               <img src="partners/row1.jpg" alt="ROW1"
                    class="w-full h-full object-cover">
             </div>
