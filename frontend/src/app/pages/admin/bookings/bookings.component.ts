@@ -14,23 +14,34 @@ import { Router } from '@angular/router';
   template: `
     <div class="bg-[#07071a] min-h-screen flex">
 
+      <!-- Mobile overlay -->
+      @if (sidebarOpen) {
+        <div class="fixed inset-0 bg-black/60 z-30 md:hidden" (click)="sidebarOpen = false"></div>
+      }
+
       <!-- Sidebar -->
-      <aside class="w-60 min-h-screen bg-[#080818] border-r border-white/8 flex flex-col fixed top-0 left-0 z-40">
-        <div class="p-5 border-b border-white/8">
-          <div class="text-lg font-bold tracking-widest text-white">ZYVENTO</div>
-          <div class="text-xs text-blue-400 font-semibold mt-0.5 tracking-wider uppercase">Admin Panel</div>
+      <aside class="w-60 min-h-screen bg-[#080818] border-r border-white/8 flex flex-col fixed top-0 left-0 z-40 transition-transform duration-300 md:translate-x-0"
+             [class.-translate-x-full]="!sidebarOpen">
+        <div class="p-5 border-b border-white/8 flex items-center justify-between">
+          <div>
+            <div class="text-lg font-bold tracking-widest text-white">ZYVENTO</div>
+            <div class="text-xs text-blue-400 font-semibold mt-0.5 tracking-wider uppercase">Admin Panel</div>
+          </div>
+          <button (click)="sidebarOpen = false" type="button" class="md:hidden p-1 text-gray-400 hover:text-white">
+            <mat-icon class="text-base">close</mat-icon>
+          </button>
         </div>
 
         <nav class="flex-1 p-3 space-y-1 mt-2">
-          <a routerLink="/admin/boekingen" routerLinkActive="bg-blue-600/15 text-white border-l-2 border-blue-500"
+          <a routerLink="/admin/boekingen" routerLinkActive="bg-blue-600/15 text-white border-l-2 border-blue-500" (click)="sidebarOpen = false"
              class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-l-2 border-transparent">
             <mat-icon class="text-base shrink-0">receipt_long</mat-icon> Boekingen
           </a>
-          <a routerLink="/admin/artikelen" routerLinkActive="bg-blue-600/15 text-white border-l-2 border-blue-500"
+          <a routerLink="/admin/artikelen" routerLinkActive="bg-blue-600/15 text-white border-l-2 border-blue-500" (click)="sidebarOpen = false"
              class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-l-2 border-transparent">
             <mat-icon class="text-base shrink-0">inventory_2</mat-icon> Artikelen
           </a>
-          <a routerLink="/admin/pakketten" routerLinkActive="bg-blue-600/15 text-white border-l-2 border-blue-500"
+          <a routerLink="/admin/pakketten" routerLinkActive="bg-blue-600/15 text-white border-l-2 border-blue-500" (click)="sidebarOpen = false"
              class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all text-sm font-medium border-l-2 border-transparent">
             <mat-icon class="text-base shrink-0">celebration</mat-icon> Pakketten
           </a>
@@ -45,12 +56,20 @@ import { Router } from '@angular/router';
       </aside>
 
       <!-- Content -->
-      <main class="ml-60 flex-1 p-8">
+      <main class="flex-1 md:ml-60 p-4 sm:p-6 md:p-8 min-w-0">
+
+        <!-- Mobile topbar -->
+        <div class="md:hidden -mx-4 -mt-4 mb-6 px-4 py-3 border-b border-white/8 bg-[#080818] flex items-center justify-between sticky top-0 z-20">
+          <div class="text-base font-bold tracking-widest text-white">ZYVENTO</div>
+          <button (click)="sidebarOpen = true" type="button" class="p-2 text-gray-300 hover:text-white">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
 
         <!-- Header -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-0 mb-6 md:mb-8">
           <div>
-            <h1 class="text-2xl font-bold text-white">Boekingen</h1>
+            <h1 class="text-xl sm:text-2xl font-bold text-white">Boekingen</h1>
             <p class="text-gray-500 text-sm mt-0.5">Overzicht van alle klantboekingen</p>
           </div>
           <div class="text-sm text-gray-500">{{ bookings.length }} boeking(en)</div>
@@ -89,12 +108,12 @@ import { Router } from '@angular/router';
               <thead>
                 <tr class="border-b border-white/8">
                   <th class="w-8"></th>
-                  <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
-                  <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Klant</th>
-                  <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Periode</th>
-                  <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Totaal</th>
-                  <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                  <th class="text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Aangemaakt</th>
+                  <th class="hidden sm:table-cell text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">#</th>
+                  <th class="text-left px-3 sm:px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Klant</th>
+                  <th class="hidden md:table-cell text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Periode</th>
+                  <th class="text-left px-3 sm:px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Totaal</th>
+                  <th class="text-left px-3 sm:px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                  <th class="hidden lg:table-cell text-left px-5 py-3.5 text-xs font-semibold text-gray-500 uppercase tracking-wider">Aangemaakt</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,16 +122,17 @@ import { Router } from '@angular/router';
                     <td class="px-3 py-4 text-gray-500">
                       <mat-icon class="text-base transition-transform" [class.rotate-90]="expandedId === b.id">chevron_right</mat-icon>
                     </td>
-                    <td class="px-5 py-4 text-gray-500 font-mono">{{ b.id }}</td>
-                    <td class="px-5 py-4">
+                    <td class="hidden sm:table-cell px-5 py-4 text-gray-500 font-mono">{{ b.id }}</td>
+                    <td class="px-3 sm:px-5 py-4">
                       <div class="text-white font-medium">{{ b.customer?.firstName }} {{ b.customer?.lastName }}</div>
                       <div class="text-gray-500 text-xs">{{ b.customer?.email }}</div>
+                      <div class="md:hidden text-gray-500 text-xs mt-0.5">{{ b.startDate }} — {{ b.endDate }}</div>
                     </td>
-                    <td class="px-5 py-4 text-gray-300">{{ b.startDate }} — {{ b.endDate }}</td>
-                    <td class="px-5 py-4 text-white font-semibold">{{ b.totalAmount | currency:'EUR' }}</td>
-                    <td class="px-5 py-4" (click)="$event.stopPropagation()">
+                    <td class="hidden md:table-cell px-5 py-4 text-gray-300">{{ b.startDate }} — {{ b.endDate }}</td>
+                    <td class="px-3 sm:px-5 py-4 text-white font-semibold whitespace-nowrap">{{ b.totalAmount | currency:'EUR' }}</td>
+                    <td class="px-3 sm:px-5 py-4" (click)="$event.stopPropagation()">
                       <select [(ngModel)]="b.status" (ngModelChange)="updateStatus(b)"
-                              class="bg-[#07071a] border border-white/15 text-white text-xs rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-blue-500 cursor-pointer">
+                              class="bg-[#07071a] border border-white/15 text-white text-xs rounded-lg px-2 sm:px-2.5 py-1.5 focus:outline-none focus:border-blue-500 cursor-pointer">
                         <option value="PENDING">Wachtend</option>
                         <option value="PAID">Betaald</option>
                         <option value="CONFIRMED">Bevestigd</option>
@@ -120,12 +140,12 @@ import { Router } from '@angular/router';
                         <option value="REFUNDED">Terugbetaald</option>
                       </select>
                     </td>
-                    <td class="px-5 py-4 text-gray-500 text-xs">{{ b.createdAt | date:'dd/MM/yy HH:mm' }}</td>
+                    <td class="hidden lg:table-cell px-5 py-4 text-gray-500 text-xs">{{ b.createdAt | date:'dd/MM/yy HH:mm' }}</td>
                   </tr>
                   @if (expandedId === b.id) {
                     <tr class="border-b border-white/5 bg-white/3">
-                      <td colspan="7" class="px-8 py-5">
-                        <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+                      <td colspan="7" class="px-4 sm:px-8 py-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
                           <div>
                             <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Klantgegevens</div>
                             <div class="text-sm text-gray-300 space-y-1">
@@ -194,6 +214,7 @@ export class BookingsComponent implements OnInit {
 
   activeFilter = '';
   expandedId: number | null = null;
+  sidebarOpen = false;
 
   statuses = [
     { key: 'PENDING',   label: 'Wachtend',    color: 'text-yellow-400', activeCls: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' },
